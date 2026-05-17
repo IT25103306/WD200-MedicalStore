@@ -28,7 +28,15 @@ async function request(method, path, body = null) {
     }
 
     const text = await response.text();
-    return text ? JSON.parse(text) : null;
+    if (!text) return null;
+
+    try {
+        // Attempt to parse as JSON if the response is a structured object/array
+        return JSON.parse(text);
+    } catch (_) {
+        // ✅ FIXED: Fallback to returning the raw string if parsing fails (e.g., plain text deletion responses)
+        return text;
+    }
 }
 
 /* ─────────────────────────────────────────────────────────────
