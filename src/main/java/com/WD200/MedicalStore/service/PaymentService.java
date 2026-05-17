@@ -1,6 +1,6 @@
 // Payment Service - Managed by IT25103696
 
-package com.WD200.MedicalStore.repository;
+package com.WD200.MedicalStore.service;
 
 import com.WD200.MedicalStore.dto.PaymentRequest;
 import com.WD200.MedicalStore.exception.ResourceNotFoundException;
@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-
 public class PaymentService {
 
     private final PaymentRepository repo;
@@ -44,9 +43,7 @@ public class PaymentService {
         return repo.save(payment);
     }
 
-    public List<Payment> getAll() {
-        return repo.findAll();
-    }
+    public List<Payment> getAll() { return repo.findAll(); }
 
     public Payment getById(Long id) {
         return repo.findById(id)
@@ -73,4 +70,3 @@ public class PaymentService {
         repo.delete(getById(id));
     }
 }
-

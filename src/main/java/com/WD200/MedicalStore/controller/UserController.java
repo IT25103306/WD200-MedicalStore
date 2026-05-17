@@ -6,6 +6,7 @@ import com.WD200.MedicalStore.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import com.WD200.MedicalStore.dto.LoginRequest;
 
 @RestController
 @RequestMapping("/users")
@@ -47,5 +48,10 @@ public class UserController {
     public String delete(@PathVariable Long id) {
         service.delete(id);
         return "User deleted successfully";
+    }
+
+    @PostMapping("/login")
+    public UserResponseDTO login(@RequestBody LoginRequest request) {
+        return service.login(request.getUsername(), request.getPassword());
     }
 }

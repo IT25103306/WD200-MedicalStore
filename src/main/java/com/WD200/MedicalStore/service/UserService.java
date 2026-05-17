@@ -75,4 +75,12 @@ public class UserService {
         return new UserResponseDTO(u.getId(), u.getUsername(),
                 u.getEmail(), u.getPhone(), u.getRole());
     }
+
+    public UserResponseDTO login(String username, String password) {
+        User user = repo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
+        if (!encoder.matches(password, user.getPassword()))
+            throw new IllegalArgumentException("Incorrect password");
+        return toDTO(user);
+    }
 }

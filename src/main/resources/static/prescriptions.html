@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Prescriptions — CarePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand"><span class="brand-cross" aria-hidden="true">✚</span> CarePulse</a>
+        <div class="navbar-nav" role="list">
+            <a href="index.html" class="nav-link" role="listitem">Home</a>
+            <a href="products.html" class="nav-link" role="listitem">Shop</a>
+            <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+            <a href="prescriptions.html" class="nav-link active" role="listitem">Prescriptions</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn">🛒 Cart<span class="cart-badge">0</span></a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Shop</a>
+        <a href="orders.html" class="nav-link">Orders</a>
+        <a href="prescriptions.html" class="nav-link active">Prescriptions</a>
+        <a href="cart.html" class="nav-link">🛒 Cart</a>
+    </div>
+</nav>
+
+<div class="page-header">
+    <div class="container">
+        <h1>📋 Prescription Management</h1>
+        <p>Upload and manage your doctor's prescriptions</p>
+    </div>
+</div>
+
+<main class="prescriptions-page" id="main-content">
+    <div class="container">
+
+        <!-- Info Banner -->
+        <div class="info-banner" role="note">
+            <span aria-hidden="true">ℹ️</span>
+            <span>Prescriptions are reviewed within <strong>24 hours</strong> by our licensed pharmacist. You will receive a notification once approved.</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start" class="prescriptions-grid">
+
+            <!-- Upload Form -->
+            <div class="card">
+                <div class="card-header"><h3>Upload New Prescription</h3></div>
+                <div class="card-body">
+                    <form id="prescription-form" novalidate>
+                        <div class="form-group">
+                            <label for="rx-medicine-select">Medicine <span style="color:var(--error)">*</span></label>
+                            <select class="form-control" id="rx-medicine-select" required aria-required="true">
+                                <option value="">Loading medicines…</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="rx-doctor">Doctor's Name <span style="color:var(--error)">*</span></label>
+                                <input type="text" class="form-control" id="rx-doctor" placeholder="Dr. Ranjith Fernando" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rx-hospital">Hospital / Clinic</label>
+                                <input type="text" class="form-control" id="rx-hospital" placeholder="National Hospital Colombo">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="rx-issue-date">Issue Date <span style="color:var(--error)">*</span></label>
+                                <input type="date" class="form-control" id="rx-issue-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rx-expiry-date">Expiry Date</label>
+                                <input type="date" class="form-control" id="rx-expiry-date">
+                            </div>
+                        </div>
+
+                        <!-- Drag & Drop Zone -->
+                        <div class="form-group">
+                            <label>Prescription File <span style="color:var(--error)">*</span></label>
+                            <div class="upload-zone" id="upload-zone" role="button" tabindex="0" aria-label="Click or drag to upload prescription"
+                                 onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('rx-file-input').click()">
+                                <div class="upload-icon" aria-hidden="true">📎</div>
+                                <strong>Click to upload</strong> or drag &amp; drop
+                                <p>Accepted: JPG, PNG, PDF · Max 10MB</p>
+                            </div>
+                            <input type="file" id="rx-file-input" accept="image/jpeg,image/png,application/pdf" class="sr-only" aria-label="Upload prescription file">
+                            <div class="upload-preview" id="upload-preview" aria-live="polite">
+                                <span aria-hidden="true">✅</span>
+                                <span id="preview-filename"></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full btn-lg">📤 Upload Prescription</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- My Prescriptions -->
+            <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                    <h2 style="font-size:20px">My Prescriptions</h2>
+                </div>
+                <div id="prescriptions-list" aria-live="polite">
+                    <div style="text-align:center;padding:48px">
+                        <div class="spinner" style="margin:auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Guide -->
+        <div class="card" style="margin-top:32px">
+            <div class="card-header"><h3>Prescription Status Guide</h3></div>
+            <div class="card-body">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+                    <div style="display:flex;align-items:flex-start;gap:12px">
+                        <span class="badge badge-warning" style="flex-shrink:0;margin-top:2px">PENDING</span>
+                        <div>
+                            <div style="font-weight:600;margin-bottom:4px">Under Review</div>
+                            <div class="text-secondary text-sm">Your prescription has been submitted and is being reviewed by our pharmacist.</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:12px">
+                        <span class="badge badge-success" style="flex-shrink:0;margin-top:2px">APPROVED</span>
+                        <div>
+                            <div style="font-weight:600;margin-bottom:4px">Approved</div>
+                            <div class="text-secondary text-sm">Your prescription is valid. You can now order the prescribed medicine.</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:12px">
+                        <span class="badge badge-error" style="flex-shrink:0;margin-top:2px">REJECTED</span>
+                        <div>
+                            <div style="font-weight:600;margin-bottom:4px">Rejected</div>
+                            <div class="text-secondary text-sm">The prescription could not be verified. Please check the notes and re-upload.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-bottom" style="border-top:none;padding-top:0">
+            <div class="footer-brand"><span aria-hidden="true">✚</span> CarePulse</div>
+            <span style="color:rgba(255,255,255,0.5)">© 2025 CarePulse. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initPrescriptionsPage);
+
+    // Responsive grid
+    function adjustGrid() {
+        const grid = document.querySelector('.prescriptions-grid');
+        if (!grid) return;
+        grid.style.gridTemplateColumns = window.innerWidth < 768 ? '1fr' : '1fr 1fr';
+    }
+    window.addEventListener('resize', adjustGrid);
+    adjustGrid();
+</script>
+</body>
+</html>

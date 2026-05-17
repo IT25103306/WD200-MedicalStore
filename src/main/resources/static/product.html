@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail — CarePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand"><span class="brand-cross" aria-hidden="true">✚</span> CarePulse</a>
+        <div class="navbar-nav" role="list">
+            <a href="index.html" class="nav-link" role="listitem">Home</a>
+            <a href="products.html" class="nav-link active" role="listitem">Shop</a>
+            <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+            <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn" aria-label="Shopping cart">🛒 Cart<span class="cart-badge">0</span></a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Shop</a>
+        <a href="orders.html" class="nav-link">Orders</a>
+        <a href="prescriptions.html" class="nav-link">Prescriptions</a>
+        <a href="cart.html" class="nav-link">🛒 Cart</a>
+    </div>
+</nav>
+
+<main class="product-detail-page" id="main-content">
+    <div class="container">
+
+        <!-- Spinner -->
+        <div id="product-spinner" style="display:none;justify-content:center;padding:64px">
+            <div class="spinner" style="width:40px;height:40px;border-width:4px"></div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">›</span>
+            <a href="products.html">Shop</a>
+            <span class="breadcrumb-sep" aria-hidden="true">›</span>
+            <span id="product-breadcrumb-name" aria-current="page">Loading…</span>
+        </nav>
+
+        <!-- Product Detail Layout -->
+        <div class="product-detail-layout">
+
+            <!-- Image -->
+            <div class="product-detail-image">
+                <img id="product-detail-img" src="" alt="Product image" loading="eager">
+            </div>
+
+            <!-- Info Panel -->
+            <div class="product-detail-info">
+                <div class="product-detail-tags">
+                    <span class="badge badge-primary" id="product-category-badge"></span>
+                    <span class="badge badge-rx" id="product-rx-badge" style="display:none">Rx Required</span>
+                </div>
+
+                <h1 class="product-detail-name" id="product-name">Loading…</h1>
+                <p class="product-detail-manufacturer" id="product-manufacturer"></p>
+
+                <!-- Rx Warning -->
+                <div class="rx-warning" id="product-rx-warning" style="display:none" role="alert">
+                    <span aria-hidden="true">⚠️</span>
+                    <div>
+                        <strong>Prescription Required</strong><br>
+                        Please <a href="prescriptions.html">upload a valid prescription</a> before ordering this medicine.
+                    </div>
+                </div>
+
+                <div class="product-detail-price" id="product-price" aria-label="Price"></div>
+
+                <div id="product-rating" aria-label="Rating"></div>
+
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <span id="product-stock" aria-label="Stock status"></span>
+                    <div class="expiry-info">
+                        <span aria-hidden="true">📅</span>
+                        <span>Expires: <span id="product-expiry"></span></span>
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div>
+                    <label style="font-size:14px;font-weight:500;display:block;margin-bottom:8px" for="qty-input">Quantity</label>
+                    <div class="quantity-control">
+                        <button class="qty-btn" id="qty-decrease" aria-label="Decrease quantity">−</button>
+                        <input class="qty-input" type="number" id="qty-input" value="1" min="1" aria-label="Quantity">
+                        <button class="qty-btn" id="qty-increase" aria-label="Increase quantity">+</button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="product-actions">
+                    <button class="btn btn-primary btn-lg" id="add-to-cart-btn"
+                            onclick="if(_currentProduct){addToCart(_currentProduct,_qty);showToast(_currentProduct.name+' added to cart','success')}">
+                        🛒 Add to Cart
+                    </button>
+                    <button class="btn btn-secondary btn-lg" id="buy-now-btn"
+                            onclick="if(_currentProduct){addToCart(_currentProduct,_qty);window.location='cart.html'}">
+                        ⚡ Buy Now
+                    </button>
+                </div>
+
+                <!-- Upload Rx Link -->
+                <a href="prescriptions.html" class="btn btn-ghost" id="upload-rx-link" style="display:none;width:fit-content">
+                    📋 Upload Prescription
+                </a>
+
+                <!-- Info Box -->
+                <div style="background:var(--background);border-radius:var(--radius-sm);padding:14px 16px;font-size:13px;color:var(--text-secondary)">
+                    <div style="margin-bottom:6px">🚚 <strong>Free delivery</strong> on orders over Rs. 2,000</div>
+                    <div style="margin-bottom:6px">✅ <strong>Genuine medicines</strong> sourced from licensed manufacturers</div>
+                    <div>🔒 <strong>Secure payment</strong> — all transactions encrypted</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs: Description | Reviews -->
+        <div style="margin-top:48px" class="card">
+            <div class="card-header" style="padding:0">
+                <div class="tabs" role="tablist" aria-label="Product information tabs">
+                    <button class="tab-btn active" data-panel="tab-description" role="tab" aria-selected="true" id="tab-desc-btn">Description</button>
+                    <button class="tab-btn" data-panel="tab-reviews" role="tab" aria-selected="false" id="tab-rev-btn">Reviews</button>
+                </div>
+            </div>
+
+            <!-- Description Panel -->
+            <div class="tab-panel active card-body" id="tab-description" role="tabpanel" aria-labelledby="tab-desc-btn">
+                <p id="product-description" style="line-height:1.8"></p>
+            </div>
+
+            <!-- Reviews Panel -->
+            <div class="tab-panel card-body" id="tab-reviews" role="tabpanel" aria-labelledby="tab-rev-btn">
+                <div id="rating-summary" aria-label="Rating summary"></div>
+                <div id="reviews-list" aria-live="polite"></div>
+
+                <!-- Write a Review -->
+                <div class="write-review-form" id="write-review-section" style="display:none">
+                    <h4>Write a Review</h4>
+                    <form id="review-form">
+                        <div style="margin-bottom:14px">
+                            <label style="font-size:14px;font-weight:500;display:block;margin-bottom:8px">Your Rating</label>
+                            <div class="star-rating-input" role="group" aria-label="Select rating">
+                                <span role="button" tabindex="0" aria-label="1 star" onkeydown="if(event.key==='Enter')this.click()">★</span>
+                                <span role="button" tabindex="0" aria-label="2 stars" onkeydown="if(event.key==='Enter')this.click()">★</span>
+                                <span role="button" tabindex="0" aria-label="3 stars" onkeydown="if(event.key==='Enter')this.click()">★</span>
+                                <span role="button" tabindex="0" aria-label="4 stars" onkeydown="if(event.key==='Enter')this.click()">★</span>
+                                <span role="button" tabindex="0" aria-label="5 stars" onkeydown="if(event.key==='Enter')this.click()">★</span>
+                            </div>
+                            <input type="hidden" id="review-rating-value" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="review-comment">Your Review</label>
+                            <textarea class="form-control" id="review-comment" placeholder="Share your experience with this product…" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+
+                <div id="review-login-prompt" style="display:none;padding:20px;background:var(--background);border-radius:var(--radius-md);text-align:center">
+                    <p class="text-secondary" style="margin-bottom:12px">Please log in to write a review.</p>
+                    <a href="login.html" class="btn btn-primary btn-sm">Login to Review</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-bottom" style="border-top:none;padding-top:0">
+            <div class="footer-brand"><span aria-hidden="true">✚</span> CarePulse</div>
+            <span style="color:rgba(255,255,255,0.5)">© 2025 CarePulse. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        initProductPage();
+        initQtyControls();
+        initProductTabs();
+        initReviewForm();
+    });
+</script>
+</body>
+</html>

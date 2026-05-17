@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile — CarePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand"><span class="brand-cross" aria-hidden="true">✚</span> CarePulse</a>
+        <div class="navbar-nav" role="list">
+            <a href="index.html" class="nav-link" role="listitem">Home</a>
+            <a href="products.html" class="nav-link" role="listitem">Shop</a>
+            <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+            <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn">🛒 Cart<span class="cart-badge">0</span></a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Shop</a>
+        <a href="orders.html" class="nav-link">Orders</a>
+        <a href="prescriptions.html" class="nav-link">Prescriptions</a>
+    </div>
+</nav>
+
+<div class="page-header">
+    <div class="container">
+        <h1>My Profile</h1>
+        <p>Manage your account, addresses, and preferences</p>
+    </div>
+</div>
+
+<main class="profile-page" id="main-content">
+    <div class="container">
+
+        <!-- Stats Cards -->
+        <div class="stat-cards-row" style="margin-bottom:32px">
+            <div class="stat-card">
+                <span class="stat-value" id="stat-orders">—</span>
+                <div class="stat-label">Total Orders</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="stat-spent" style="font-size:18px">—</span>
+                <div class="stat-label">Total Spent</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="stat-rx">—</span>
+                <div class="stat-label">Prescriptions</div>
+            </div>
+        </div>
+
+        <div class="profile-layout">
+
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <div class="profile-avatar-lg" id="profile-avatar" aria-hidden="true">?</div>
+                <div class="profile-name" id="profile-username-display">Loading…</div>
+                <div class="profile-email" id="profile-email-display"></div>
+                <span class="badge" id="profile-role-badge">CUSTOMER</span>
+                <div style="margin-top:24px;display:flex;flex-direction:column;gap:8px;width:100%">
+                    <a href="orders.html" class="btn btn-ghost btn-full">📦 My Orders</a>
+                    <a href="prescriptions.html" class="btn btn-ghost btn-full">📋 Prescriptions</a>
+                    <button onclick="logout()" class="btn btn-ghost btn-full" style="color:var(--error)">🚪 Logout</button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div style="display:flex;flex-direction:column;gap:24px">
+
+                <!-- Profile Info Form -->
+                <div class="card">
+                    <div class="card-header"><h3>Personal Information</h3></div>
+                    <div class="card-body">
+                        <form id="profile-form" novalidate>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-fullname">Full Name</label>
+                                    <input type="text" class="form-control" id="profile-fullname" autocomplete="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-username">Username</label>
+                                    <input type="text" class="form-control" id="profile-username" autocomplete="username" readonly style="background:var(--background);cursor:not-allowed" aria-readonly="true">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-email">Email Address</label>
+                                    <input type="email" class="form-control" id="profile-email" autocomplete="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-phone">Phone Number</label>
+                                    <input type="tel" class="form-control" id="profile-phone" autocomplete="tel">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Change Password -->
+                <div class="card">
+                    <div class="card-header"><h3>Change Password</h3></div>
+                    <div class="card-body">
+                        <form id="password-form" novalidate onsubmit="handleChangePassword(event)">
+                            <div class="form-group">
+                                <label for="current-password">Current Password</label>
+                                <div class="password-input-wrap">
+                                    <input type="password" class="form-control" id="current-password" autocomplete="current-password" required>
+                                    <button type="button" class="show-password-btn" onclick="togglePasswordVisibility('current-password', this)" aria-label="Toggle password visibility">👁️</button>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <div class="password-input-wrap">
+                                        <input type="password" class="form-control" id="new-password" autocomplete="new-password" required>
+                                        <button type="button" class="show-password-btn" onclick="togglePasswordVisibility('new-password', this)" aria-label="Toggle password visibility">👁️</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password</label>
+                                    <div class="password-input-wrap">
+                                        <input type="password" class="form-control" id="confirm-password" autocomplete="new-password" required>
+                                        <button type="button" class="show-password-btn" onclick="togglePasswordVisibility('confirm-password', this)" aria-label="Toggle password visibility">👁️</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Saved Addresses -->
+                <div class="card">
+                    <div class="card-header flex-between">
+                        <h3>Saved Addresses</h3>
+                        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('add-address-section').classList.toggle('hidden')">+ Add Address</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="addresses-list" aria-live="polite">
+                            <p class="text-secondary text-sm">Loading addresses…</p>
+                        </div>
+
+                        <!-- Add Address Form -->
+                        <div id="add-address-section" class="hidden" style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+                            <h4 style="margin-bottom:16px">Add New Address</h4>
+                            <form id="add-address-form" novalidate>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="addr-label">Label (e.g. Home, Office)</label>
+                                        <input type="text" class="form-control" id="addr-label" placeholder="Home">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="addr-city">City</label>
+                                        <input type="text" class="form-control" id="addr-city" placeholder="Colombo" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addr-address">Full Address</label>
+                                    <textarea class="form-control" id="addr-address" rows="2" placeholder="House No, Street, Area" required></textarea>
+                                </div>
+                                <div style="display:flex;gap:10px">
+                                    <button type="submit" class="btn btn-primary btn-sm">Save Address</button>
+                                    <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('add-address-section').classList.add('hidden')">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="danger-zone">
+                    <h4>⚠️ Danger Zone</h4>
+                    <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+                    <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">Delete My Account</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Delete Account Modal -->
+<div class="modal-overlay" id="delete-account-modal" role="dialog" aria-modal="true" aria-labelledby="delete-account-title">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="delete-account-title">Delete Account</h3>
+            <button class="modal-close" onclick="closeModal('delete-account-modal')" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete your account? All your orders, prescriptions, and data will be permanently lost.</p>
+            <div class="form-group" style="margin-top:16px">
+                <label for="delete-confirm-input">Type <strong>DELETE</strong> to confirm</label>
+                <input type="text" class="form-control" id="delete-confirm-input" placeholder="DELETE">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModal('delete-account-modal')">Cancel</button>
+            <button class="btn btn-danger" onclick="executeDeleteAccount()">Delete Account</button>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-bottom" style="border-top:none;padding-top:0">
+            <div class="footer-brand"><span aria-hidden="true">✚</span> CarePulse</div>
+            <span style="color:rgba(255,255,255,0.5)">© 2025 CarePulse. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initProfilePage);
+
+    function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+        btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+    }
+
+    function handleChangePassword(e) {
+        e.preventDefault();
+        const current = document.getElementById('current-password').value;
+        const newPw = document.getElementById('new-password').value;
+        const confirm = document.getElementById('confirm-password').value;
+
+        if (!current) { showToast('Please enter your current password', 'warning'); return; }
+        if (!isValidPassword(newPw)) { showToast('New password must be at least 6 characters', 'warning'); return; }
+        if (newPw !== confirm) { showToast('New passwords do not match', 'error'); return; }
+
+        // ✅ Extract current session details to retain structural payload parameters
+        const user = getCurrentUser();
+        if (!user) { showToast('Session expired. Please log in again.', 'error'); return; }
+
+        // ✅ Fire HTTP PUT update payload directly into your Spring Boot user context
+        request('PUT', `/users/${user.id}`, {
+            username: user.username,
+            email: user.email,
+            phone: user.phone || '',
+            password: newPw // The backend User Service will handle the BCrypt hashing automatically
+        })
+            .then(() => {
+                showToast('Password updated successfully', 'success');
+                document.getElementById('password-form').reset();
+            })
+            .catch(err => {
+                showToast('Failed to update password: ' + err.message, 'error');
+            });
+    }
+
+    function closeModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.classList.remove('open');
+    }
+
+    function confirmDeleteAccount() {
+        document.getElementById('delete-account-modal').classList.add('open');
+        document.getElementById('delete-confirm-input').value = '';
+    }
+
+    function executeDeleteAccount() {
+        const input = document.getElementById('delete-confirm-input').value;
+        if (input !== 'DELETE') { showToast('Please type DELETE to confirm', 'warning'); return; }
+        showToast('Account deletion requested. You will be logged out.', 'info');
+        setTimeout(() => { logout(); }, 1500);
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+    });
+</script>
+</body>
+</html>

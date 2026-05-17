@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Medicines — CarePulse</title>
+    <meta name="description" content="Browse genuine medicines, vitamins, devices and skincare products at CarePulse.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── Navbar ───────────────────────────────────────────────── -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand"><span class="brand-cross" aria-hidden="true">✚</span> CarePulse</a>
+        <div class="navbar-nav" role="list">
+            <a href="index.html" class="nav-link" role="listitem">Home</a>
+            <a href="products.html" class="nav-link active" role="listitem">Shop</a>
+            <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+            <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn" aria-label="Shopping cart">🛒 Cart<span class="cart-badge">0</span></a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" role="list">
+        <a href="index.html" class="nav-link" role="listitem">Home</a>
+        <a href="products.html" class="nav-link active" role="listitem">Shop</a>
+        <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+        <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        <a href="cart.html" class="nav-link" role="listitem">🛒 Cart</a>
+    </div>
+</nav>
+
+<!-- ── Page Header ──────────────────────────────────────────── -->
+<div class="page-header">
+    <div class="container">
+        <h1>Shop Medicines</h1>
+        <p>Browse our full range of genuine medicines and health products</p>
+    </div>
+</div>
+
+<!-- ── Products Page ─────────────────────────────────────────── -->
+<main class="products-page" id="main-content">
+    <div class="container">
+        <div class="products-layout">
+
+            <!-- Sidebar Filters -->
+            <aside class="sidebar" aria-label="Product filters">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                    <h3 style="font-size:16px">Filters</h3>
+                    <button class="filter-clear-btn" id="clear-filters-btn" aria-label="Clear all filters">Clear All</button>
+                </div>
+
+                <!-- Category -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Category</div>
+                    <div class="filter-option">
+                        <input type="checkbox" class="category-filter-checkbox" id="cat-medicines" value="Medicines">
+                        <label for="cat-medicines">💊 Medicines</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" class="category-filter-checkbox" id="cat-pain" value="Pain Relief">
+                        <label for="cat-pain">🩹 Pain Relief</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" class="category-filter-checkbox" id="cat-vitamins" value="Vitamins">
+                        <label for="cat-vitamins">🌿 Vitamins</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" class="category-filter-checkbox" id="cat-devices" value="Devices">
+                        <label for="cat-devices">🩺 Devices</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" class="category-filter-checkbox" id="cat-skincare" value="Skincare">
+                        <label for="cat-skincare">✨ Skincare</label>
+                    </div>
+                </div>
+
+                <!-- Price Range -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Price Range</div>
+                    <input type="range" class="price-slider" id="price-slider" min="0" max="5000" value="5000" step="50" aria-label="Maximum price">
+                    <div class="price-range-labels">
+                        <span>Rs. 0</span>
+                        <span id="price-max-label">Rs. 5,000</span>
+                    </div>
+                </div>
+
+                <!-- Toggles -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Other Filters</div>
+                    <div class="toggle-filter" style="margin-bottom:14px">
+                        <label for="filter-rx">Prescription Only</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="filter-rx">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-filter">
+                        <label for="filter-instock">In Stock Only</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="filter-instock">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Products Main Area -->
+            <div>
+                <!-- Top Bar -->
+                <div class="products-main-header">
+                    <div class="products-search-bar">
+                        <div class="search-input-wrap">
+                            <span class="search-icon" aria-hidden="true">🔍</span>
+                            <input type="text" class="form-control" id="products-search" placeholder="Search medicines…" aria-label="Search medicines">
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <span class="results-count" id="results-count" aria-live="polite">Loading…</span>
+                        <select class="form-control sort-select" id="products-sort" aria-label="Sort products">
+                            <option value="name_az">Name A–Z</option>
+                            <option value="price_asc">Price: Low → High</option>
+                            <option value="price_desc">Price: High → Low</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="products-grid" id="products-grid" aria-live="polite" aria-busy="true">
+                    <!-- Products injected by JS -->
+                </div>
+
+                <!-- Pagination -->
+                <nav class="pagination" id="pagination" aria-label="Product pages"></nav>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-bottom" style="border-top:none;padding-top:0">
+            <div class="footer-brand"><span aria-hidden="true">✚</span> CarePulse</div>
+            <span style="color:rgba(255,255,255,0.5)">© 2025 CarePulse. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initProductsPage);
+</script>
+</body>
+</html>

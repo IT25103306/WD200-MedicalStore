@@ -8,6 +8,7 @@ import com.WD200.MedicalStore.repository.MedicineRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InventoryService {
@@ -24,6 +25,17 @@ public class InventoryService {
                             Integer reorderLevel, LocalDate expiryDate) {
         Medicine medicine = medicineRepo.findById(medicineId)
                 .orElseThrow(() -> new ResourceNotFoundException("Medicine not found: " + medicineId));
+
+        // ✅ Upsert: update if exists, create if not
+        Optional<Inventory> existing = repo.findByMedicine_Id(medicineId);
+        if (existing.isPresent()) {
+            Inventory inv = existing.get();
+            inv.setQuantity(quantity);
+            if (reorderLevel != null) inv.setReorderLevel(reorderLevel);
+            if (expiryDate != null) inv.setExpiryDate(expiryDate);
+            inv.setLastUpdated(LocalDate.now());
+            return repo.save(inv);
+        }
 
         Inventory inventory = new Inventory(medicine, quantity, reorderLevel, expiryDate);
         return repo.save(inventory);

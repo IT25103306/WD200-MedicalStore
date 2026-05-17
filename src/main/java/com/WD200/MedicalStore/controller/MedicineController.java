@@ -1,16 +1,14 @@
-// Medicine controller - Managed by IT25100045
-
 package com.WD200.MedicalStore.controller;
 
+import com.WD200.MedicalStore.model.Medicine;
+import com.WD200.MedicalStore.service.MedicineService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/medicines")
 @CrossOrigin
-
 public class MedicineController {
 
     private final MedicineService service;

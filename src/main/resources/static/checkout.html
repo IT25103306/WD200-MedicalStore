@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — CarePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Steps: hidden by default, visible when .active is added by JS */
+        .checkout-step { display: none; }
+        .checkout-step.active { display: block; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand"><span class="brand-cross" aria-hidden="true">✚</span> CarePulse</a>
+        <div class="navbar-nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="products.html" class="nav-link">Shop</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn">🛒 Cart<span class="cart-badge">0</span></a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Shop</a>
+        <a href="cart.html" class="nav-link">🛒 Cart</a>
+    </div>
+</nav>
+
+<main class="checkout-page" id="main-content">
+    <div class="container">
+        <h1 style="margin-bottom:8px">Checkout</h1>
+        <p class="text-secondary" style="margin-bottom:28px">Complete your order in 3 simple steps</p>
+
+        <!-- ── Progress Indicator ──────────────────────────────────── -->
+        <div class="progress-steps" role="list" aria-label="Checkout steps">
+            <div class="progress-step active" role="listitem" aria-current="step">
+                <div class="step-number" aria-hidden="true">1</div>
+                <div class="step-label">Delivery</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="progress-step" role="listitem">
+                <div class="step-number" aria-hidden="true">2</div>
+                <div class="step-label">Review &amp; Rx</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="progress-step" role="listitem">
+                <div class="step-number" aria-hidden="true">3</div>
+                <div class="step-label">Payment</div>
+            </div>
+        </div>
+
+        <div class="checkout-layout">
+
+            <!-- ── LEFT: Step forms ─────────────────────────────────── -->
+            <div>
+
+                <!-- STEP 1: Delivery Details -->
+                <div class="checkout-step active card" id="checkout-step-1">
+                    <div class="card-header"><h3>📍 Delivery Details</h3></div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="delivery-name">Full Name *</label>
+                                <input type="text" class="form-control" id="delivery-name"
+                                       placeholder="Priya Perera" autocomplete="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-phone">Phone Number *</label>
+                                <input type="tel" class="form-control" id="delivery-phone"
+                                       placeholder="077 123 4567" autocomplete="tel" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="delivery-email">Email Address *</label>
+                            <input type="email" class="form-control" id="delivery-email"
+                                   placeholder="priya@email.com" autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="delivery-address">Delivery Address *</label>
+                            <textarea class="form-control" id="delivery-address" rows="3"
+                                      placeholder="House/Apt No, Street, Area"
+                                      autocomplete="street-address" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="delivery-city">City *</label>
+                                <input type="text" class="form-control" id="delivery-city"
+                                       placeholder="Colombo" autocomplete="address-level2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-postal">Postal Code</label>
+                                <input type="text" class="form-control" id="delivery-postal"
+                                       placeholder="00300" autocomplete="postal-code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="delivery-notes">Delivery Notes (Optional)</label>
+                            <input type="text" class="form-control" id="delivery-notes"
+                                   placeholder="e.g. Leave at reception, call before delivery">
+                        </div>
+                    </div>
+                    <div class="card-footer" style="display:flex;justify-content:flex-end">
+                        <button class="btn btn-primary" onclick="checkoutNext()">
+                            Next: Review &amp; Rx →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Review & Prescription -->
+                <div class="checkout-step card" id="checkout-step-2">
+                    <div class="card-header"><h3>📋 Review Order &amp; Prescription</h3></div>
+                    <div class="card-body">
+                        <h4 style="margin-bottom:12px">Order Items</h4>
+                        <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
+                            <thead>
+                            <tr style="background:var(--background)">
+                                <th style="padding:8px 12px;text-align:left;font-size:12px;text-transform:uppercase;color:var(--text-secondary)">Medicine</th>
+                                <th style="padding:8px 12px;text-align:right;font-size:12px;text-transform:uppercase;color:var(--text-secondary)">Qty</th>
+                                <th style="padding:8px 12px;text-align:right;font-size:12px;text-transform:uppercase;color:var(--text-secondary)">Subtotal</th>
+                            </tr>
+                            </thead>
+                            <!-- FIXED: unique id — no conflict with sidebar table -->
+                            <tbody id="checkout-items-review"></tbody>
+                        </table>
+
+                        <!-- Rx Upload (only shown if cart has Rx items) -->
+                        <div id="checkout-rx-section" style="display:none">
+                            <div class="rx-warning" role="alert" style="margin-bottom:20px">
+                                <span aria-hidden="true">⚠️</span>
+                                <div>Some items require a <strong>valid prescription</strong>. Please upload it below.</div>
+                            </div>
+                            <h4 style="margin-bottom:16px">Upload Prescription</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="checkout-doctor-name">Doctor's Name</label>
+                                    <input type="text" class="form-control" id="checkout-doctor-name"
+                                           placeholder="Dr. Ranjith Fernando">
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkout-issue-date">Prescription Date</label>
+                                    <input type="date" class="form-control" id="checkout-issue-date">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-rx-file">Prescription File (JPG, PNG, PDF)</label>
+                                <input type="file" class="form-control" id="checkout-rx-file" accept="image/*,.pdf">
+                            </div>
+                            <div class="info-banner" style="margin-top:0;margin-bottom:0">
+                                <span aria-hidden="true">ℹ️</span>
+                                <span>Your prescription will be reviewed by our licensed pharmacist within 24 hours before dispensing.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="display:flex;justify-content:space-between">
+                        <button class="btn btn-ghost" onclick="checkoutBack()">← Back</button>
+                        <button class="btn btn-primary" onclick="checkoutNext()">Next: Payment →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Payment -->
+                <div class="checkout-step card" id="checkout-step-3">
+                    <div class="card-header"><h3>💳 Payment Method</h3></div>
+                    <div class="card-body">
+                        <div class="payment-methods" role="group" aria-label="Select payment method">
+                            <label class="payment-method selected" data-method="CASH">
+                                <input type="radio" name="payment-method" value="CASH" checked>
+                                <div class="pm-icon" aria-hidden="true">💵</div>
+                                <div class="pm-label">Cash on Delivery</div>
+                                <div class="pm-sub">Pay when delivered</div>
+                            </label>
+                            <label class="payment-method" data-method="CARD">
+                                <input type="radio" name="payment-method" value="CARD">
+                                <div class="pm-icon" aria-hidden="true">💳</div>
+                                <div class="pm-label">Credit / Debit Card</div>
+                                <div class="pm-sub">Visa, MasterCard</div>
+                            </label>
+                            <label class="payment-method" data-method="BANK_TRANSFER">
+                                <input type="radio" name="payment-method" value="BANK_TRANSFER">
+                                <div class="pm-icon" aria-hidden="true">🏦</div>
+                                <div class="pm-label">Bank Transfer</div>
+                                <div class="pm-sub">Direct bank payment</div>
+                            </label>
+                            <label class="payment-method" data-method="ONLINE">
+                                <input type="radio" name="payment-method" value="ONLINE">
+                                <div class="pm-icon" aria-hidden="true">📱</div>
+                                <div class="pm-label">Online Payment</div>
+                                <div class="pm-sub">frimi / iPay</div>
+                            </label>
+                        </div>
+
+                        <!-- Card Details (shown only when CARD selected) -->
+                        <div id="card-details-form" style="display:none">
+                            <div style="background:var(--background);border-radius:var(--radius-md);padding:20px;margin-bottom:16px;margin-top:16px">
+                                <div class="form-group">
+                                    <label for="card-number">Card Number</label>
+                                    <input type="text" class="form-control" id="card-number"
+                                           placeholder="1234 5678 9012 3456" maxlength="19"
+                                           oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="card-expiry">Expiry Date</label>
+                                        <input type="text" class="form-control" id="card-expiry"
+                                               placeholder="MM/YY" maxlength="5"
+                                               oninput="let v=this.value.replace(/\D/g,'');if(v.length>=2)v=v.slice(0,2)+'/'+v.slice(2);this.value=v">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="card-cvv">CVV</label>
+                                        <input type="password" class="form-control" id="card-cvv" placeholder="•••" maxlength="4">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0">
+                                    <label for="card-name">Name on Card</label>
+                                    <input type="text" class="form-control" id="card-name"
+                                           placeholder="PRIYA PERERA" style="text-transform:uppercase">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:var(--success-light);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:#2E7D32;display:flex;align-items:center;gap:8px">
+                            🔒 All transactions are secured with 256-bit SSL encryption
+                        </div>
+                    </div>
+                    <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center">
+                        <button class="btn btn-ghost" onclick="checkoutBack()">← Back</button>
+                        <button class="btn btn-primary btn-lg" id="place-order-btn" onclick="placeOrder()">
+                            ✓ Place Order
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- /left column -->
+
+            <!-- ── RIGHT: Order Summary sidebar ────────────────────── -->
+            <div>
+                <div class="order-summary" aria-label="Order summary">
+                    <h3 style="margin-bottom:20px">Order Summary</h3>
+
+                    <!-- FIXED: single unique id — only one checkout-items in the DOM -->
+                    <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:16px">
+                        <tbody id="checkout-items"></tbody>
+                    </table>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="checkout-subtotal">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery</span>
+                        <span id="checkout-delivery">—</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="checkout-total">—</span>
+                    </div>
+                    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-secondary)">
+                        <div>🚚 Estimated delivery: <strong>2–3 business days</strong></div>
+                        <div style="margin-top:6px">✅ 100% genuine medicines</div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /checkout-layout -->
+    </div>
+</main>
+
+<!-- ── Order Success Modal ───────────────────────────────────── -->
+<div class="modal-overlay" id="order-success-modal" role="dialog" aria-modal="true" aria-labelledby="success-modal-title">
+    <div class="modal">
+        <div class="modal-body">
+            <div class="success-modal-content">
+                <div class="success-icon" aria-hidden="true">✅</div>
+                <h3 id="success-modal-title">Order Placed Successfully!</h3>
+                <p>Your order <strong id="success-order-id"></strong> has been placed.<br>
+                    Estimated delivery: <strong>2–3 business days</strong></p>
+                <p class="text-secondary" style="font-size:14px;margin-bottom:24px">
+                    A confirmation will be sent to your email address.
+                </p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                    <a href="orders.html" class="btn btn-primary">📦 Track Order</a>
+                    <a href="products.html" class="btn btn-secondary">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    /* ── Patch checkoutNext to also populate the Step 2 review table ── */
+    (function () {
+        const _original = checkoutNext;
+        checkoutNext = function () {
+            _original();
+            // After moving to step 2, fill the review items table
+            if (_checkoutStep === 2) {
+                const reviewBody = document.getElementById('checkout-items-review');
+                if (reviewBody) {
+                    const cart = getCart();
+                    reviewBody.innerHTML = cart.length
+                        ? cart.map(item => `
+                  <tr>
+                    <td style="padding:8px 12px;border-bottom:1px solid var(--border)">
+                      ${escapeHtml(item.name)}
+                      ${item.prescriptionRequired
+                            ? '<span class="badge badge-rx" style="margin-left:6px">Rx</span>'
+                            : ''}
+                    </td>
+                    <td style="padding:8px 12px;border-bottom:1px solid var(--border);text-align:right">
+                      ×${item.quantity}
+                    </td>
+                    <td style="padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;font-weight:600">
+                      Rs. ${(item.price * item.quantity).toLocaleString()}
+                    </td>
+                  </tr>`).join('')
+                        : '<tr><td colspan="3" style="padding:16px;text-align:center;color:#666">No items in cart.</td></tr>';
+                }
+            }
+        };
+    })();
+
+    document.addEventListener('DOMContentLoaded', initCheckoutPage);
+</script>
+</body>
+</html>

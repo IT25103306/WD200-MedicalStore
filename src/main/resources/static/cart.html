@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart — CarePulse</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand"><span class="brand-cross" aria-hidden="true">✚</span> CarePulse</a>
+        <div class="navbar-nav" role="list">
+            <a href="index.html" class="nav-link" role="listitem">Home</a>
+            <a href="products.html" class="nav-link" role="listitem">Shop</a>
+            <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+            <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn active" aria-label="Shopping cart" aria-current="page">🛒 Cart<span class="cart-badge">0</span></a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Shop</a>
+        <a href="orders.html" class="nav-link">Orders</a>
+        <a href="prescriptions.html" class="nav-link">Prescriptions</a>
+    </div>
+</nav>
+
+<main class="cart-page" id="main-content">
+    <div class="container">
+        <h1>Shopping Cart</h1>
+
+        <!-- Empty State -->
+        <div id="cart-empty" style="display:none;flex-direction:column;align-items:center;padding:80px 24px;text-align:center">
+            <div style="font-size:64px;margin-bottom:16px">🛒</div>
+            <h2 style="margin-bottom:8px">Your cart is empty</h2>
+            <p class="text-secondary" style="margin-bottom:24px">Looks like you haven't added any medicines yet.</p>
+            <a href="products.html" class="btn btn-primary btn-lg">Start Shopping</a>
+        </div>
+
+        <!-- Cart Content -->
+        <div class="cart-layout" id="cart-content" style="display:none">
+            <div>
+                <!-- Rx Warning Banner -->
+                <div class="rx-warning-banner" id="cart-rx-banner" style="display:none" role="alert">
+                    <span aria-hidden="true">⚠️</span>
+                    <span>Some items in your cart require a valid prescription. Please <a href="prescriptions.html">upload your prescription</a> before ordering.</span>
+                </div>
+
+                <!-- Cart Items -->
+                <div class="card">
+                    <div class="card-header flex-between">
+                        <h3>Cart Items</h3>
+                        <button class="btn btn-ghost btn-sm" onclick="if(confirm('Clear entire cart?')){clearCart();showToast('Cart cleared','info')}" aria-label="Clear all items from cart">Clear All</button>
+                    </div>
+                    <div class="card-body" style="padding:0 24px">
+                        <div id="cart-items" aria-live="polite"></div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="products.html" class="btn btn-ghost btn-sm">← Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div>
+                <div class="order-summary" aria-label="Order summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal">Rs. 0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery</span>
+                        <span id="summary-delivery">Rs. 250</span>
+                    </div>
+                    <div class="summary-row" style="font-size:13px;color:var(--text-secondary)">
+                        <span colspan="2">Free delivery on orders over Rs. 2,000</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="summary-total">Rs. 0</span>
+                    </div>
+                    <a href="checkout.html" class="btn btn-primary btn-full btn-lg" style="margin-top:20px">
+                        Proceed to Checkout →
+                    </a>
+                    <div style="margin-top:16px;font-size:13px;color:var(--text-secondary);text-align:center">
+                        🔒 Secure checkout · All major cards accepted
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-bottom" style="border-top:none;padding-top:0">
+            <div class="footer-brand"><span aria-hidden="true">✚</span> CarePulse</div>
+            <span style="color:rgba(255,255,255,0.5)">© 2025 CarePulse. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initCartPage);
+</script>
+</body>
+</html>

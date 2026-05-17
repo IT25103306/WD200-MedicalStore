@@ -16,13 +16,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                // ✅ ADDED CORS CONFIGURATION BLOCK HERE
+                .cors(cors -> cors.configurationSource(request -> {
+                    var config = new org.springframework.web.cors.CorsConfiguration();
+                    config.setAllowedOrigins(java.util.List.of("*"));
+                    config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(java.util.List.of("*"));
+                    return config;
+                }))
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 );
         return http.build();
     }
 
-    // ✅ Single shared PasswordEncoder bean — injected wherever needed
+    // ✅ Kept your single shared PasswordEncoder bean safe at the bottom
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

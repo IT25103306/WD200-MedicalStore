@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePulse — Your Health, Delivered</title>
+    <meta name="description" content="Sri Lanka's trusted online pharmacy. Order genuine medicines, vitamins, and health products with fast delivery.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── Navbar ───────────────────────────────────────────────── -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container navbar-inner">
+        <a href="index.html" class="navbar-brand" aria-label="CarePulse Home">
+            <span class="brand-cross" aria-hidden="true">✚</span> CarePulse
+        </a>
+        <div class="navbar-nav" role="list">
+            <a href="index.html" class="nav-link active" role="listitem">Home</a>
+            <a href="products.html" class="nav-link" role="listitem">Shop</a>
+            <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+            <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        </div>
+        <div class="navbar-actions">
+            <a href="cart.html" class="cart-btn" aria-label="Shopping cart">
+                🛒 Cart
+                <span class="cart-badge" aria-live="polite" aria-label="Items in cart">0</span>
+            </a>
+            <div id="navbar-auth"></div>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" role="list">
+        <a href="index.html" class="nav-link active" role="listitem">Home</a>
+        <a href="products.html" class="nav-link" role="listitem">Shop</a>
+        <a href="orders.html" class="nav-link" role="listitem">Orders</a>
+        <a href="prescriptions.html" class="nav-link" role="listitem">Prescriptions</a>
+        <a href="cart.html" class="nav-link" role="listitem">🛒 Cart</a>
+    </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-eyebrow">🇱🇰 Sri Lanka's Trusted Online Pharmacy</div>
+            <h1 id="hero-heading">Your Health,<br>Delivered.</h1>
+            <p>Genuine medicines, vitamins & health products — ordered online and delivered to your doorstep across Sri Lanka.</p>
+            <form class="hero-search" id="hero-search-form" role="search" aria-label="Search medicines">
+                <input type="text" id="hero-search-input" placeholder="Search medicines, vitamins, devices…" aria-label="Search medicines">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <div class="hero-ctas">
+                <a href="products.html" class="btn btn-primary btn-lg">🛍️ Shop Now</a>
+                <a href="prescriptions.html" class="btn btn-hero-outline btn-lg">📋 Upload Prescription</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Category Pills ────────────────────────────────────────── -->
+<section class="category-pills" aria-label="Browse by category">
+    <div class="container">
+        <div class="category-pills-scroll">
+            <a href="products.html" class="category-pill active">💊 All</a>
+            <a href="products.html?category=Medicines" class="category-pill">🔬 Medicines</a>
+            <a href="products.html?category=Pain Relief" class="category-pill">🩹 Pain Relief</a>
+            <a href="products.html?category=Vitamins" class="category-pill">🌿 Vitamins</a>
+            <a href="products.html?category=Devices" class="category-pill">🩺 Devices</a>
+            <a href="products.html?category=Skincare" class="category-pill">✨ Skincare</a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Featured Products ─────────────────────────────────────── -->
+<section class="featured-section" aria-labelledby="featured-heading" style="padding:0 0 64px">
+    <div class="container">
+        <div class="section-header-row section-header">
+            <div>
+                <h2 id="featured-heading">Featured Products</h2>
+                <p>Top picks — quality medicines and health essentials</p>
+            </div>
+            <a href="products.html" class="btn btn-secondary">View All →</a>
+        </div>
+        <div class="products-grid" id="featured-products-grid" aria-live="polite" aria-busy="true">
+            <!-- Skeleton loaders injected by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ── Why CarePulse ─────────────────────────────────────────── -->
+<section class="features-section" aria-labelledby="why-heading">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2 id="why-heading">Why Choose CarePulse?</h2>
+            <p>We're committed to making healthcare accessible and convenient for all Sri Lankans.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-tile">
+                <div class="feature-icon" aria-hidden="true">🚀</div>
+                <h3>Fast Delivery</h3>
+                <p>Same-day delivery in Colombo and next-day delivery islandwide. Free delivery on orders over Rs. 2,000.</p>
+            </div>
+            <div class="feature-tile">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <h3>Genuine Medicines</h3>
+                <p>All products sourced directly from licensed manufacturers and distributors registered with the NMRA Sri Lanka.</p>
+            </div>
+            <div class="feature-tile">
+                <div class="feature-icon" aria-hidden="true">🏥</div>
+                <h3>Licensed Pharmacy</h3>
+                <p>Fully licensed by the Sri Lanka Medical Council. Our pharmacists are available for guidance 7 days a week.</p>
+            </div>
+            <div class="feature-tile">
+                <div class="feature-icon" aria-hidden="true">📋</div>
+                <h3>Prescription Service</h3>
+                <p>Upload your doctor's prescription online. Our pharmacists review and process within 24 hours.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Trust Bar ─────────────────────────────────────────────── -->
+<section style="background:var(--primary);padding:40px 0" aria-label="Statistics">
+    <div class="container">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;color:white">
+            <div>
+                <div style="font-size:36px;font-weight:700;margin-bottom:4px">50,000+</div>
+                <div style="opacity:0.85;font-size:15px">Satisfied Customers</div>
+            </div>
+            <div>
+                <div style="font-size:36px;font-weight:700;margin-bottom:4px">500+</div>
+                <div style="opacity:0.85;font-size:15px">Medicines In Stock</div>
+            </div>
+            <div>
+                <div style="font-size:36px;font-weight:700;margin-bottom:4px">24/7</div>
+                <div style="opacity:0.85;font-size:15px">Customer Support</div>
+            </div>
+            <div>
+                <div style="font-size:36px;font-weight:700;margin-bottom:4px">25+</div>
+                <div style="opacity:0.85;font-size:15px">Districts Covered</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand"><span aria-hidden="true">✚</span> CarePulse</div>
+                <p>Sri Lanka's trusted online pharmacy. Your health is our priority — delivering genuine medicines and care to your doorstep.</p>
+            </div>
+            <div>
+                <div class="footer-title">Shop</div>
+                <nav class="footer-links" aria-label="Shop links">
+                    <a href="products.html">All Medicines</a>
+                    <a href="products.html?category=Vitamins">Vitamins</a>
+                    <a href="products.html?category=Devices">Devices</a>
+                    <a href="products.html?category=Skincare">Skincare</a>
+                </nav>
+            </div>
+            <div>
+                <div class="footer-title">Account</div>
+                <nav class="footer-links" aria-label="Account links">
+                    <a href="login.html">Login / Register</a>
+                    <a href="orders.html">My Orders</a>
+                    <a href="prescriptions.html">Prescriptions</a>
+                    <a href="profile.html">My Profile</a>
+                </nav>
+            </div>
+            <div>
+                <div class="footer-title">Support</div>
+                <nav class="footer-links" aria-label="Support links">
+                    <a href="tel:+94117654321">📞 011-765-4321</a>
+                    <a href="mailto:support@carepulse.lk">✉️ support@carepulse.lk</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </nav>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 CarePulse. All rights reserved.</span>
+            <span style="opacity:0.6">Licensed by NMRA Sri Lanka · SLMC Registered</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', initHomePage);
+</script>
+</body>
+</html>
